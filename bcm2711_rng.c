@@ -55,6 +55,10 @@ uint32_t bcm2711_rng_read(void)
         fprintf(stderr, "RNG base address not initialized\n");
         exit(1);
     }
+
+    // Wait until there's random data available
+    do {} while ((rng_base[0x24 >> 2] & (0xFF << 24)) == 0);
+
     return rng_base[0x20 >> 2];
 }
 
